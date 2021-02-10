@@ -20,6 +20,8 @@ IFS=$SAVEDIFS
 
 LAST_COMMIT=$(git log -1 --pretty=format:'%s %b')
 
+BRANCH_NAME=$(git branch --show-current)
+
 TASKS=()
 
 echo "${blue}⚡ ️Last commit:${cyan}"
@@ -58,10 +60,17 @@ then
 		
 		for task in $(echo $LAST_COMMIT | grep "$project_prefix[0-9]{1,5}" -E -o || true | sort -u -r --version-sort)
 		do
-            if [[ ! " ${TASKS[@]} " =~ " ${task} " ]]; then
-                TASKS+=($task)
-            fi
+            		if [[ ! " ${TASKS[@]} " =~ " ${task} " ]]; then
+                		TASKS+=($task)
+            		fi
 		done
+		
+		if [ ${#TASKS[*]} -eq 0 ];
+		then
+			echo "${magenta}!  Last chance: branch name...${cyan}"
+			task=$(echo $BRANCH_NAME | grep "$project_prefix[0-9]{1,5}" -E -o || true)
+			TASKS+=($task)
+		fi	
 	fi
 fi
 
