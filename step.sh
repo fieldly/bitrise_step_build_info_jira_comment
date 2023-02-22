@@ -18,7 +18,7 @@ MERGES=($MERGES)
 
 IFS=$SAVEDIFS
 
-LAST_COMMIT=$(git log -1 --pretty=format:'%s %b')
+LAST_COMMIT=$(git log -1 --pretty=format:'%s %B')
 
 BRANCH_NAME=$(git branch --show-current)
 
